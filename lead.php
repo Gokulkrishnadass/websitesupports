@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $TO_EMAIL = 'gokulkrishnadass@websitesupports.com';
 
 // SMTP settings (get from your email hosting / cPanel)
-$SMTP_HOST = 'mail.websitesupports.com';   // e.g. mail.yourdomain.com
+$SMTP_HOST = 'smtp.hostinger.com';   // e.g. mail.yourdomain.com
 $SMTP_USER = 'gokulkrishnadass@websitesupports.com';
 $SMTP_PASS = 'Krishnadass04!';        // use app password if needed
 $SMTP_PORT = 587;                          // usually 587 (TLS) or 465 (SSL)
