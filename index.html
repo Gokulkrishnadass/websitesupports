@@ -137,7 +137,7 @@
           <h3>Get your free website audit</h3>
           <p>Share your website URL and what you need. I’ll reply with audit notes + the next steps.</p>
 
-          <form id="auditForm">
+          <form id="auditForm" method="post" action="/lead.php">>
             <div class="row2">
               <div>
                 <label for="name">Name</label>
@@ -518,12 +518,26 @@
     });
   </script>
   <script>
+  // Simple toast
+  function toast(msg){
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.style.display = 'block';
+    clearTimeout(window.__t);
+    window.__t = setTimeout(()=>{ el.style.display='none'; }, 4200);
+  }
 
-    document.getElementById('auditForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const form = e.target;
-      const data = Object.fromEntries(new FormData(form).entries());
+  document.getElementById('auditForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const data = Object.fromEntries(new FormData(form).entries());
 
+    if (!/^https?:\/\//i.test((data.website || '').trim())) {
+      toast("Please enter website URL starting with https://");
+      return;
+    }
+
+    try {
       const res = await fetch('/lead.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -531,17 +545,19 @@
       });
 
       const out = await res.json().catch(() => ({}));
+
       if (!res.ok || !out.ok) {
         toast(out.error || "Failed to send. Please try again.");
         return;
       }
 
-      toast(out.message || "Sent!");
+      toast(out.message || "Sent successfully!");
       form.reset();
-    });
-
-
-  </script>
+    } catch (err) {
+      toast("Network error. Please try again.");
+    }
+  });
+</script>
 
 </body>
 
