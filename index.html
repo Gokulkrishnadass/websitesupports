@@ -40,6 +40,26 @@
     gtag('config', 'G-6F7FRLZ11T');
   </script>
 
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Gokul WordPress Support",
+  "url": "https://yourdomain.com/",
+  "description": "WordPress support, maintenance, speed optimization, security hardening, and WooCommerce help for businesses in the US, Australia, and UK.",
+  "areaServed": ["United States", "Australia", "United Kingdom"],
+  "serviceType": [
+    "WordPress Support",
+    "WordPress Maintenance",
+    "WordPress Speed Optimization",
+    "WordPress Security",
+    "WooCommerce Support"
+  ]
+}
+</script>
+
+
 </head>
 
 <body>
@@ -496,6 +516,49 @@
       // fetch("/lead", { method:"POST", headers:{ "Content-Type":"application/json" }, body: JSON.stringify(data) })
     });
   </script>
+  <script>
+  function toast(msg){
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.style.display = 'block';
+    clearTimeout(window.__t);
+    window.__t = setTimeout(()=>{ el.style.display='none'; }, 4200);
+  }
+
+  document.getElementById('auditForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+    const data = Object.fromEntries(new FormData(form).entries());
+
+    // quick URL check
+    if (!/^https?:\/\//i.test((data.website || '').trim())) {
+      toast("Please enter website URL starting with https://");
+      return;
+    }
+
+    try {
+      const res = await fetch('lead.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      const out = await res.json().catch(() => ({}));
+
+      if (!res.ok || !out.ok) {
+        toast(out.error || "Something went wrong. Please try again.");
+        return;
+      }
+
+      toast(out.message || "Sent successfully!");
+      form.reset();
+    } catch (err) {
+      toast("Network error. Please try again.");
+    }
+  });
+</script>
+
 </body>
 
 </html>
