@@ -1,0 +1,753 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>WordPress Support & Website Fixes | Gokul</title>
+  <meta name="description" content="Professional WordPress fixes, speed optimization, security hardening, and monthly support for small businesses in Australia, USA, and Canada." />
+
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#0f1a33;
+      --muted:#9db0d0;
+      --text:#eaf0ff;
+      --brand:#7c5cff;
+      --brand2:#37d67a;
+      --border:rgba(255,255,255,.10);
+      --shadow: 0 14px 50px rgba(0,0,0,.35);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 600px at 20% 10%, rgba(124,92,255,.35), transparent 60%),
+                  radial-gradient(1200px 600px at 90% 20%, rgba(55,214,122,.25), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      line-height:1.55;
+    }
+    a{color:inherit; text-decoration:none}
+    .container{max-width:1120px; margin:0 auto; padding:0 20px}
+    .nav{
+      position:sticky; top:0; z-index:10;
+      backdrop-filter: blur(10px);
+      background: rgba(11,18,32,.55);
+      border-bottom:1px solid var(--border);
+    }
+    .nav .row{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 0;
+      gap:14px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px; font-weight:700;
+      letter-spacing:.2px;
+    }
+    .logo{
+      width:36px; height:36px; border-radius:12px;
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      box-shadow: 0 10px 30px rgba(124,92,255,.25);
+    }
+    .navlinks{display:flex; gap:16px; flex-wrap:wrap; align-items:center}
+    .navlinks a{
+      color:var(--muted);
+      font-size:14px;
+      padding:8px 10px;
+      border-radius:10px;
+    }
+    .navlinks a:hover{background:rgba(255,255,255,.06); color:var(--text)}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:8px;
+      padding:11px 14px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      font-weight:600;
+      font-size:14px;
+      cursor:pointer;
+      transition: transform .12s ease, background .12s ease;
+      user-select:none;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.10)}
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(124,92,255,1), rgba(55,214,122,.85));
+      border:0;
+      box-shadow: 0 16px 40px rgba(124,92,255,.20);
+    }
+    .btn.primary:hover{transform: translateY(-2px)}
+    .btn.ghost{background:transparent}
+    .hero{
+      padding:56px 0 18px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap:28px;
+      align-items:start;
+    }
+    h1{
+      font-size: clamp(30px, 4vw, 46px);
+      line-height:1.08;
+      margin:0 0 14px;
+      letter-spacing:-.6px;
+    }
+    .sub{
+      color:var(--muted);
+      font-size:16px;
+      max-width:58ch;
+      margin:0 0 18px;
+    }
+    .pillrow{display:flex; gap:10px; flex-wrap:wrap; margin:16px 0 18px}
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 12px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      border-radius:999px;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .pill strong{color:var(--text); font-weight:700}
+    .kpis{
+      display:grid;
+      grid-template-columns: repeat(3,1fr);
+      gap:12px;
+      margin:18px 0 0;
+    }
+    .kpi{
+      padding:14px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      border-radius:16px;
+    }
+    .kpi .n{font-size:18px; font-weight:800}
+    .kpi .t{font-size:12px; color:var(--muted); margin-top:4px}
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .formcard{padding:18px}
+    .formcard h3{margin:6px 0 4px; font-size:18px}
+    .formcard p{margin:0 0 12px; color:var(--muted); font-size:13px}
+    form{display:grid; gap:10px}
+    label{font-size:12px; color:var(--muted)}
+    input, select, textarea{
+      width:100%;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background: rgba(15,26,51,.55);
+      color:var(--text);
+      outline:none;
+    }
+    textarea{min-height:92px; resize:vertical}
+    input:focus, select:focus, textarea:focus{border-color: rgba(124,92,255,.7)}
+    .row2{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+    .hint{font-size:12px; color:var(--muted); margin-top:8px}
+    .trust{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+      margin-top:12px;
+      color:var(--muted);
+      font-size:12px;
+    }
+    .trust .badge{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      padding:8px 10px;
+      border-radius:12px;
+    }
+
+    section{padding:34px 0}
+    .section-title{
+      display:flex; align-items:end; justify-content:space-between; gap:14px; flex-wrap:wrap;
+      margin-bottom:14px;
+    }
+    .section-title h2{margin:0; font-size:24px}
+    .section-title p{margin:0; color:var(--muted); max-width:72ch}
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+    }
+    .item{padding:16px}
+    .item h4{margin:6px 0 6px}
+    .item p{margin:0; color:var(--muted); font-size:14px}
+    .icon{
+      width:40px; height:40px; border-radius:14px;
+      display:grid; place-items:center;
+      background: rgba(124,92,255,.14);
+      border:1px solid rgba(124,92,255,.25);
+      font-weight:900;
+    }
+
+    .split{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+    }
+    .list{
+      margin:0; padding-left:18px; color:var(--muted)
+    }
+    .list li{margin:8px 0}
+
+    .pricing{
+      display:grid;
+      grid-template-columns: repeat(3,1fr);
+      gap:14px;
+      align-items:stretch;
+    }
+    .price{
+      padding:18px;
+      position:relative;
+      overflow:hidden;
+    }
+    .price.popular{
+      border-color: rgba(124,92,255,.55);
+      box-shadow: 0 18px 60px rgba(124,92,255,.18);
+    }
+    .tag{
+      position:absolute; top:14px; right:14px;
+      font-size:12px; padding:6px 10px; border-radius:999px;
+      background: rgba(124,92,255,.18);
+      border:1px solid rgba(124,92,255,.35);
+      color:var(--text);
+    }
+    .price h3{margin:0 0 6px}
+    .money{font-size:30px; font-weight:900; margin:10px 0 4px}
+    .per{font-size:12px; color:var(--muted)}
+    .price ul{margin:14px 0 16px; padding-left:18px; color:var(--muted)}
+    .price li{margin:8px 0}
+
+    .testimonials{
+      display:grid;
+      grid-template-columns: repeat(3,1fr);
+      gap:14px;
+    }
+    .quote{padding:16px}
+    .quote p{margin:0 0 12px; color:var(--text)}
+    .who{display:flex; align-items:center; gap:10px; color:var(--muted); font-size:13px}
+    .avatar{
+      width:34px; height:34px; border-radius:12px;
+      background: rgba(255,255,255,.08);
+      border:1px solid var(--border);
+    }
+
+    .faq{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+    }
+    details{
+      padding:14px 16px;
+      border:1px solid var(--border);
+      border-radius:16px;
+      background: rgba(255,255,255,.03);
+    }
+    summary{cursor:pointer; font-weight:700}
+    details p{color:var(--muted); margin:10px 0 0}
+
+    .cta{
+      padding:26px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      flex-wrap:wrap;
+      background: linear-gradient(135deg, rgba(124,92,255,.20), rgba(55,214,122,.14));
+      border:1px solid rgba(255,255,255,.12);
+    }
+    .cta h3{margin:0 0 6px}
+    .cta p{margin:0; color:var(--muted); max-width:70ch}
+
+    footer{
+      padding:26px 0 36px;
+      color:var(--muted);
+      font-size:13px;
+      border-top:1px solid var(--border);
+      margin-top:18px;
+    }
+    .footrow{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap}
+    .tiny a{color:var(--muted); text-decoration:underline}
+
+    .toast{
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      width: min(420px, calc(100% - 36px));
+      padding: 12px 14px;
+      border-radius: 14px;
+      border:1px solid var(--border);
+      background: rgba(15,26,51,.92);
+      box-shadow: var(--shadow);
+      display:none;
+      z-index:50;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    @media (max-width: 960px){
+      .grid{grid-template-columns:1fr; gap:16px}
+      .cards, .pricing, .testimonials{grid-template-columns:1fr}
+      .split, .faq{grid-template-columns:1fr}
+      .kpis{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 480px){
+      .kpis{grid-template-columns:1fr}
+      .row2{grid-template-columns:1fr}
+      .navlinks{display:none}
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAV -->
+  <div class="nav">
+    <div class="container">
+      <div class="row">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <div>
+            <div style="font-size:14px; color:var(--muted);">Gokul</div>
+            <div style="font-size:15px; font-weight:800;">WordPress Support</div>
+          </div>
+        </div>
+
+        <div class="navlinks" aria-label="Primary navigation">
+          <a href="#services">Services</a>
+          <a href="#process">Process</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#faq">FAQ</a>
+        </div>
+
+        <div style="display:flex; gap:10px; align-items:center;">
+          <a class="btn ghost" href="#lead">Free Audit</a>
+          <a class="btn primary" href="#lead">Get Started</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="container">
+      <div class="grid">
+        <div>
+          <div class="pillrow">
+            <span class="pill">🇦🇺 AU</span>
+            <span class="pill">🇺🇸 US</span>
+            <span class="pill">🇨🇦 CA</span>
+            <span class="pill"><strong>8+ years</strong> experience</span>
+            <span class="pill">Fast fixes • Clean code</span>
+          </div>
+
+          <h1>Fix your WordPress website issues — fast.<br/>Improve speed, security, and conversions.</h1>
+          <p class="sub">
+            I help small businesses and agencies in Australia, USA, and Canada fix WordPress errors, improve performance, and ship custom features.
+            Get a <strong>free professional audit</strong> and a clear action plan.
+          </p>
+
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin:18px 0 6px;">
+            <a class="btn primary" href="#lead">Request Free Audit</a>
+            <a class="btn" href="#pricing">See Pricing</a>
+            <a class="btn ghost" href="#services">What I do</a>
+          </div>
+
+          <div class="kpis">
+            <div class="kpi">
+              <div class="n">24–48 hrs</div>
+              <div class="t">Typical turnaround for fixes</div>
+            </div>
+            <div class="kpi">
+              <div class="n">Performance</div>
+              <div class="t">Core Web Vitals & speed improvements</div>
+            </div>
+            <div class="kpi">
+              <div class="n">Support</div>
+              <div class="t">Monthly maintenance & priority help</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LEAD FORM -->
+        <div id="lead" class="card formcard">
+          <h3>Get your free website audit</h3>
+          <p>Share your website URL and what you need. I’ll reply with audit notes + the next steps.</p>
+
+          <form id="auditForm">
+            <div class="row2">
+              <div>
+                <label for="name">Name</label>
+                <input id="name" name="name" placeholder="Your name" required />
+              </div>
+              <div>
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" placeholder="you@company.com" required />
+              </div>
+            </div>
+
+            <div class="row2">
+              <div>
+                <label for="country">Country</label>
+                <select id="country" name="country" required>
+                  <option value="" selected disabled>Select</option>
+                  <option>Australia</option>
+                  <option>United States</option>
+                  <option>Canada</option>
+                </select>
+              </div>
+              <div>
+                <label for="website">Website URL</label>
+                <input id="website" name="website" placeholder="https://yourwebsite.com" required />
+              </div>
+            </div>
+
+            <div>
+              <label for="need">What do you need?</label>
+              <select id="need" name="need" required>
+                <option value="" selected disabled>Select a service</option>
+                <option>Fix WordPress error / bug</option>
+                <option>Speed optimization</option>
+                <option>Security hardening</option>
+                <option>WooCommerce help</option>
+                <option>New feature / customization</option>
+                <option>Monthly support</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="message">Message</label>
+              <textarea id="message" name="message" placeholder="Tell me the issue, deadline, and any details…"></textarea>
+            </div>
+
+            <button class="btn primary" type="submit">Send Request</button>
+
+            <div class="hint">
+              This demo form shows a success message and creates an email link. To receive leads automatically, connect it to Formspree / Netlify Forms / your PHP endpoint.
+            </div>
+
+            <div class="trust" aria-label="Trust badges">
+              <span class="badge">✅ Clean coding</span>
+              <span class="badge">✅ Secure practices</span>
+              <span class="badge">✅ NDA-friendly</span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="container">
+      <div class="section-title">
+        <h2>Services</h2>
+        <p>Focused help that solves real business problems — stability, speed, security, and conversions.</p>
+      </div>
+
+      <div class="cards">
+        <div class="card item">
+          <div class="icon">⚙️</div>
+          <h4>Bug fixing & troubleshooting</h4>
+          <p>500 errors, plugin conflicts, theme bugs, broken layouts, login issues, WPML problems, and more.</p>
+        </div>
+
+        <div class="card item">
+          <div class="icon">🚀</div>
+          <h4>Performance & Core Web Vitals</h4>
+          <p>Caching setup, DB optimization, image strategy, script cleanup, and real speed wins (not just scores).</p>
+        </div>
+
+        <div class="card item">
+          <div class="icon">🛡️</div>
+          <h4>Security hardening</h4>
+          <p>Best-practice hardening, updates, backups, malware cleanup guidance, and risk reduction.</p>
+        </div>
+
+        <div class="card item">
+          <div class="icon">🛒</div>
+          <h4>WooCommerce support</h4>
+          <p>Checkout fixes, payment/shipping issues, custom fields, product imports, and automation.</p>
+        </div>
+
+        <div class="card item">
+          <div class="icon">🧩</div>
+          <h4>Custom development</h4>
+          <p>ACF blocks, custom post types, shortcodes, APIs, cron jobs, and integrations — clean & scalable.</p>
+        </div>
+
+        <div class="card item">
+          <div class="icon">📌</div>
+          <h4>Monthly support</h4>
+          <p>Priority help, updates, monitoring, small tasks, and ongoing improvements — predictable cost.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process">
+    <div class="container">
+      <div class="section-title">
+        <h2>How it works</h2>
+        <p>A simple, professional process — no confusion, no delays.</p>
+      </div>
+
+      <div class="split">
+        <div class="card item">
+          <div class="icon">1</div>
+          <h4>Free audit</h4>
+          <p>I review your site and share issues + a quick action plan.</p>
+          <ul class="list">
+            <li>Performance + stability checks</li>
+            <li>Security + plugin review</li>
+            <li>Priority fixes list</li>
+          </ul>
+        </div>
+
+        <div class="card item">
+          <div class="icon">2</div>
+          <h4>Quote & timeline</h4>
+          <p>You get a clear quote and turnaround time (no surprises).</p>
+          <ul class="list">
+            <li>One-time fix or monthly plan</li>
+            <li>Scope confirmed before work</li>
+            <li>Optional NDA</li>
+          </ul>
+        </div>
+
+        <div class="card item">
+          <div class="icon">3</div>
+          <h4>Fix, test, deliver</h4>
+          <p>I implement, test, and share updates with proof.</p>
+          <ul class="list">
+            <li>Staging-first when possible</li>
+            <li>Clean deploy approach</li>
+            <li>Post-fix checklist</li>
+          </ul>
+        </div>
+
+        <div class="card item">
+          <div class="icon">4</div>
+          <h4>Support & scale</h4>
+          <p>Keep your site stable with ongoing improvements.</p>
+          <ul class="list">
+            <li>Maintenance & monitoring</li>
+            <li>Monthly tasks included</li>
+            <li>Priority response</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing">
+    <div class="container">
+      <div class="section-title">
+        <h2>Pricing</h2>
+        <p>Simple starting points. Final quote depends on your scope (audit first).</p>
+      </div>
+
+      <div class="pricing">
+        <div class="card price">
+          <h3>Fix Pack</h3>
+          <div class="money">$149</div>
+          <div class="per">One-time (typical small issue)</div>
+          <ul>
+            <li>Bug fix / layout fix</li>
+            <li>Plugin/theme conflict checks</li>
+            <li>Basic security check</li>
+            <li>Delivery notes</li>
+          </ul>
+          <a class="btn" href="#lead">Request Free Audit</a>
+        </div>
+
+        <div class="card price popular">
+          <div class="tag">Most chosen</div>
+          <h3>Growth Support</h3>
+          <div class="money">$299</div>
+          <div class="per">Monthly (best for businesses)</div>
+          <ul>
+            <li>Priority support</li>
+            <li>Updates & backups guidance</li>
+            <li>Performance improvements</li>
+            <li>Small dev tasks included</li>
+          </ul>
+          <a class="btn primary" href="#lead">Start with Audit</a>
+        </div>
+
+        <div class="card price">
+          <h3>Agency Partner</h3>
+          <div class="money">$599</div>
+          <div class="per">Monthly (for agencies)</div>
+          <ul>
+            <li>White-label friendly</li>
+            <li>Faster turnaround</li>
+            <li>Custom dev & integrations</li>
+            <li>Weekly progress updates</li>
+          </ul>
+          <a class="btn" href="#lead">Talk to me</a>
+        </div>
+      </div>
+
+      <div class="hint" style="margin-top:12px;">
+        Tip: In ads, don’t show low prices. Use “Free audit” as the offer, then quote based on scope.
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials">
+    <div class="container">
+      <div class="section-title">
+        <h2>Client feedback</h2>
+        <p>Replace these with your real testimonials once you start closing AU/US/CA clients.</p>
+      </div>
+
+      <div class="testimonials">
+        <div class="card quote">
+          <p>“Fixed a critical WordPress issue quickly and explained everything clearly. Strong communication.”</p>
+          <div class="who"><div class="avatar"></div> Small Business Owner • USA</div>
+        </div>
+        <div class="card quote">
+          <p>“Performance improved noticeably. Clean implementation and delivered on time.”</p>
+          <div class="who"><div class="avatar"></div> Marketing Lead • Australia</div>
+        </div>
+        <div class="card quote">
+          <p>“Great for ongoing support — fast response and reliable fixes month after month.”</p>
+          <div class="who"><div class="avatar"></div> Agency Partner • Canada</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container">
+      <div class="section-title">
+        <h2>FAQ</h2>
+        <p>Quick answers that reduce hesitation and improve conversions.</p>
+      </div>
+
+      <div class="faq">
+        <details>
+          <summary>Do you work with my timezone?</summary>
+          <p>Yes. I work async-friendly and can align for key calls. Most tasks are handled via message + clear updates.</p>
+        </details>
+
+        <details>
+          <summary>Can you work on staging first?</summary>
+          <p>Preferred. If you have staging, I’ll implement and test there, then deploy to production safely.</p>
+        </details>
+
+        <details>
+          <summary>Do you offer monthly support?</summary>
+          <p>Yes — monthly plans include priority support, maintenance guidance, and small dev tasks.</p>
+        </details>
+
+        <details>
+          <summary>How do we share access safely?</summary>
+          <p>Use a temporary admin account, or agency credentials. Remove access after delivery. NDA is available if needed.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section>
+    <div class="container">
+      <div class="card cta">
+        <div>
+          <h3>Want me to audit your website today?</h3>
+          <p>Send your website URL and what you need. I’ll reply with issues + recommended fixes.</p>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <a class="btn primary" href="#lead">Request Free Audit</a>
+          <a class="btn" href="#pricing">View Pricing</a>
+          <a class="btn ghost" href="#" id="bookCallBtn">Book a Call</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footrow">
+        <div>
+          <div style="font-weight:800; color:var(--text);">Gokul • WordPress Support</div>
+          <div class="tiny">Serving Australia, USA, and Canada • Remote delivery</div>
+        </div>
+        <div class="tiny">
+          <a href="#services">Services</a> · <a href="#pricing">Pricing</a> · <a href="#faq">FAQ</a>
+        </div>
+      </div>
+      <div class="tiny" style="margin-top:10px;">
+        © <span id="year"></span> All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // Update year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Simple toast
+    function toast(msg){
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.style.display = 'block';
+      clearTimeout(window.__t);
+      window.__t = setTimeout(()=>{ el.style.display='none'; }, 4200);
+    }
+
+    // "Book a Call" placeholder (replace with your Calendly link)
+    document.getElementById('bookCallBtn').addEventListener('click', (e) => {
+      e.preventDefault();
+      toast("Add your Calendly/meeting link in the #bookCallBtn click handler.");
+    });
+
+    // Lead form demo submission
+    document.getElementById('auditForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const data = Object.fromEntries(new FormData(e.target).entries());
+      // Minimal validation for URL shape
+      if (!/^https?:\/\//i.test(data.website.trim())) {
+        toast("Please enter website URL starting with https://");
+        return;
+      }
+
+      // Option A: Create a mailto link (works without backend)
+      const subject = encodeURIComponent("Free Website Audit Request (" + data.country + ")");
+      const body = encodeURIComponent(
+        "Name: " + data.name + "\n" +
+        "Email: " + data.email + "\n" +
+        "Country: " + data.country + "\n" +
+        "Website: " + data.website + "\n" +
+        "Need: " + data.need + "\n\n" +
+        "Message:\n" + (data.message || "-")
+      );
+
+      // TODO: Replace with your real receiving email
+      const yourEmail = "your-email@example.com";
+      const mailto = `mailto:${yourEmail}?subject=${subject}&body=${body}`;
+
+      toast("Request prepared. Your email app will open now (demo).");
+      window.location.href = mailto;
+
+      // Option B (recommended): Send to your backend / Formspree / Netlify Forms.
+      // fetch("/lead", { method:"POST", headers:{ "Content-Type":"application/json" }, body: JSON.stringify(data) })
+    });
+  </script>
+</body>
+</html>
