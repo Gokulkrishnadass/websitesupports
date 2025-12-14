@@ -34,14 +34,14 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-6F7FRLZ11T"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
 
     gtag('config', 'G-6F7FRLZ11T');
   </script>
 
 
-<script type="application/ld+json">
+  <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
@@ -453,7 +453,8 @@
           <div class="tiny">Serving Australia, USA, and Canada • Remote delivery</div>
         </div>
         <div class="tiny">
-          <a href="#services">Services</a> · <a href="#pricing">Pricing</a> · <a href="#faq">FAQ</a> · <a href="privacy-policy.html">Privacy Policy</a> · <a href="terms-of-service.html">Terms of Service</a>
+          <a href="#services">Services</a> · <a href="#pricing">Pricing</a> · <a href="#faq">FAQ</a> · <a
+            href="privacy-policy.html">Privacy Policy</a> · <a href="terms-of-service.html">Terms of Service</a>
         </div>
       </div>
       <div class="tiny" style="margin-top:10px;">
@@ -517,47 +518,30 @@
     });
   </script>
   <script>
-  function toast(msg){
-    const el = document.getElementById('toast');
-    el.textContent = msg;
-    el.style.display = 'block';
-    clearTimeout(window.__t);
-    window.__t = setTimeout(()=>{ el.style.display='none'; }, 4200);
-  }
 
-  document.getElementById('auditForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
+    document.getElementById('auditForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const data = Object.fromEntries(new FormData(form).entries());
 
-    const form = e.target;
-    const data = Object.fromEntries(new FormData(form).entries());
-
-    // quick URL check
-    if (!/^https?:\/\//i.test((data.website || '').trim())) {
-      toast("Please enter website URL starting with https://");
-      return;
-    }
-
-    try {
-      const res = await fetch('lead.php', {
+      const res = await fetch('/lead.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
 
       const out = await res.json().catch(() => ({}));
-
       if (!res.ok || !out.ok) {
-        toast(out.error || "Something went wrong. Please try again.");
+        toast(out.error || "Failed to send. Please try again.");
         return;
       }
 
-      toast(out.message || "Sent successfully!");
+      toast(out.message || "Sent!");
       form.reset();
-    } catch (err) {
-      toast("Network error. Please try again.");
-    }
-  });
-</script>
+    });
+
+
+  </script>
 
 </body>
 
