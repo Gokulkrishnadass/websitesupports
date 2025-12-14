@@ -524,6 +524,15 @@ footer {
     font-size: 14px;
 }
 
+
+.py-5{
+    padding: 5rem 0;
+}
+
+.pt-5{
+    padding-top: 5rem;
+}
+
 @media (max-width: 960px) {
     .grid {
         grid-template-columns: 1fr;
