@@ -37,7 +37,7 @@ if (!empty($data['company'])) {
 // Validate
 $name    = trim((string)($data['name'] ?? ''));
 $email   = trim((string)($data['email'] ?? ''));
-$country = trim((string)($data['country'] ?? ''));
+$company = trim((string)($data['company'] ?? ''));
 $website = trim((string)($data['website'] ?? ''));
 $need    = trim((string)($data['need'] ?? ''));
 $message = trim((string)($data['message'] ?? ''));
@@ -59,7 +59,7 @@ $body =
 "New lead received:\n\n".
 "Name: {$name}\n".
 "Email: {$email}\n".
-"Country: {$country}\n".
+"Company Name: {$company}\n".
 "Website: {$website}\n".
 "Need: {$need}\n\n".
 "Message:\n".($message ?: "-")."\n\n".
