@@ -496,11 +496,11 @@
       }
 
       // Option A: Create a mailto link (works without backend)
-      const subject = encodeURIComponent("Free Website Audit Request (" + data.country + ")");
+      const subject = encodeURIComponent("Free Website Audit Request (" + data.company + ")");
       const body = encodeURIComponent(
         "Name: " + data.name + "\n" +
         "Email: " + data.email + "\n" +
-        "Country: " + data.country + "\n" +
+        "Company Name: " + data.company + "\n" +
         "Website: " + data.website + "\n" +
         "Need: " + data.need + "\n\n" +
         "Message:\n" + (data.message || "-")
