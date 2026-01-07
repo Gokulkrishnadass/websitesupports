@@ -42,7 +42,7 @@ $website = trim((string)($data['website'] ?? ''));
 $need    = trim((string)($data['need'] ?? ''));
 $message = trim((string)($data['message'] ?? ''));
 
-if ($name === '' || $email === '' || $country === '' || $website === '' || $need === '') {
+if ($name === '' || $email === '' || $company === '' || $website === '' || $need === '') {
   respond(422, ['ok' => false, 'error' => 'Please fill all required fields.']);
 }
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -54,7 +54,7 @@ if (!preg_match('~^https?://~i', $website)) {
 
 $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
 
-$subject = "New Lead - {$name} ({$country})";
+$subject = "New Lead - {$name} ({$company})";
 $body =
 "New lead received:\n\n".
 "Name: {$name}\n".
