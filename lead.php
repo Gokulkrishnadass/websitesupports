@@ -1,68 +1,100 @@
 <?php
+declare(strict_types=1);
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 header('Content-Type: application/json; charset=utf-8');
 
+function respond(int $status, array $payload): void {
+  http_response_code($status);
+  echo json_encode($payload);
+  exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-  http_response_code(405);
-  echo json_encode(['ok' => false, 'error' => 'Method not allowed']);
-  exit;
+  respond(405, ['ok' => false, 'error' => 'Method not allowed']);
 }
 
-// Read JSON body
-$raw = file_get_contents('php://input');
+// ======= CONFIG =======
+$TO_EMAIL  = 'gokulkrishnadass@websitesupports.com';
+
+$SMTP_HOST = 'smtp.hostinger.com';
+$SMTP_USER = 'gokulkrishnadass@websitesupports.com';
+$SMTP_PASS = getenv('SMTP_PASS') ?: ''; // ✅ set in hosting env
+$SMTP_PORT = 587;
+// ======================
+
+// Parse JSON (fallback to POST)
+$raw  = file_get_contents('php://input') ?: '';
 $data = json_decode($raw, true);
+if (!is_array($data)) $data = $_POST;
 
-if (!is_array($data)) {
-  http_response_code(400);
-  echo json_encode(['ok' => false, 'error' => 'Invalid JSON']);
-  exit;
+// ✅ Honeypot (must be a separate hidden field!)
+if (!empty($data['company_hp'])) {
+  respond(200, ['ok' => true, 'message' => 'Thanks']);
 }
 
-// Basic sanitize
-$name    = trim($data['name'] ?? '');
-$email   = trim($data['email'] ?? '');
-$company = trim($data['company'] ?? '');
-$website = trim($data['website'] ?? '');
-$need    = trim($data['need'] ?? '');
-$message = trim($data['message'] ?? '');
+// Validate + sanitize
+$name    = trim((string)($data['name'] ?? ''));
+$email   = trim((string)($data['email'] ?? ''));
+$company = trim((string)($data['company'] ?? ''));
+$website = trim((string)($data['website'] ?? ''));
+$need    = trim((string)($data['need'] ?? ''));
+$message = trim((string)($data['message'] ?? ''));
 
-// Validate
 if ($name === '' || $email === '' || $company === '' || $website === '' || $need === '') {
-  http_response_code(422);
-  echo json_encode(['ok' => false, 'error' => 'Please fill all required fields.']);
-  exit;
+  respond(422, ['ok' => false, 'error' => 'Please fill all required fields.']);
 }
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-  http_response_code(422);
-  echo json_encode(['ok' => false, 'error' => 'Invalid email address.']);
-  exit;
+  respond(422, ['ok' => false, 'error' => 'Invalid email address.']);
 }
-if (!preg_match('#^https?://#i', $website)) {
-  http_response_code(422);
-  echo json_encode(['ok' => false, 'error' => 'Website URL must start with http:// or https://']);
-  exit;
+if (!preg_match('~^https?://~i', $website)) {
+  respond(422, ['ok' => false, 'error' => 'Website URL must start with http:// or https://']);
 }
 
-// ✅ Change this to your real receiving email:
-$to = 'you@yourdomain.com';
+$ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
 
-$subject = "Free Website Audit Request ($company)";
+$subject = "New Lead - {$name} ({$company})";
 $body =
-  "Name: $name\n" .
-  "Email: $email\n" .
-  "Company: $company\n" .
-  "Website: $website\n" .
-  "Need: $need\n\n" .
-  "Message:\n" . ($message !== '' ? $message : '-');
+"New lead received:\n\n".
+"Name: {$name}\n".
+"Email: {$email}\n".
+"Company Name: {$company}\n".
+"Website: {$website}\n".
+"Need: {$need}\n\n".
+"Message:\n".($message ?: "-")."\n\n".
+"IP: {$ip}\n".
+"Time: ".date('Y-m-d H:i:s')."\n";
 
-$headers = "From: WebsiteSupports Lead <no-reply@websitesupports.com>\r\n";
-$headers .= "Reply-To: $email\r\n";
-
-$sent = mail($to, $subject, $body, $headers);
-
-if (!$sent) {
-  http_response_code(500);
-  echo json_encode(['ok' => false, 'error' => 'Mail failed. Please check server mail configuration.']);
-  exit;
+if ($SMTP_PASS === '') {
+  respond(500, ['ok' => false, 'error' => 'SMTP password not configured (SMTP_PASS env missing).']);
 }
 
-echo json_encode(['ok' => true, 'message' => 'Thanks! Your request was sent.']);
+require __DIR__ . '/vendor/autoload.php';
+
+$mail = new PHPMailer(true);
+
+try {
+  $mail->isSMTP();
+  $mail->Host       = $SMTP_HOST;
+  $mail->SMTPAuth   = true;
+  $mail->Username   = $SMTP_USER;
+  $mail->Password   = $SMTP_PASS;
+  $mail->Port       = $SMTP_PORT;
+  $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // ✅ for 587
+  $mail->CharSet    = 'UTF-8';
+  $mail->isHTML(false);
+
+  $mail->setFrom($SMTP_USER, 'websitesupports.com Leads');
+  $mail->addAddress($TO_EMAIL);
+  $mail->addReplyTo($email, $name);
+
+  $mail->Subject = $subject;
+  $mail->Body    = $body;
+
+  $mail->send();
+  respond(200, ['ok' => true, 'message' => 'Thanks! Your request was sent successfully.']);
+} catch (Exception $e) {
+  respond(500, ['ok' => false, 'error' => 'SMTP send failed: ' . $mail->ErrorInfo]);
+}
