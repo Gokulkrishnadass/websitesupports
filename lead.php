@@ -21,7 +21,7 @@ $TO_EMAIL  = 'gokulkrishnadass@websitesupports.com';
 
 $SMTP_HOST = 'smtp.hostinger.com';
 $SMTP_USER = 'gokulkrishnadass@websitesupports.com';
-$SMTP_PASS = getenv('SMTP_PASS') ?: ''; // ✅ set in hosting env
+$SMTP_PASS = getenv('SMTP_PASS') ?: 'Krishnadass04!'; // ✅ set in hosting env
 $SMTP_PORT = 587;
 // ======================
 
