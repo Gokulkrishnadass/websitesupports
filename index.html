@@ -484,51 +484,32 @@
       toast("Add your Calendly/meeting link in the #bookCallBtn click handler.");
     });
 
-    // Lead form demo submission
-    document.getElementById('auditForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      const data = Object.fromEntries(new FormData(e.target).entries());
-      // Minimal validation for URL shape
-      if (!/^https?:\/\//i.test(data.website.trim())) {
-        toast("Please enter website URL starting with https://");
-        return;
-      }
-
-      // Option A: Create a mailto link (works without backend)
-      const subject = encodeURIComponent("Free Website Audit Request (" + data.company + ")");
-      const body = encodeURIComponent(
-        "Name: " + data.name + "\n" +
-        "Email: " + data.email + "\n" +
-        "Company Name: " + data.company + "\n" +
-        "Website: " + data.website + "\n" +
-        "Need: " + data.need + "\n\n" +
-        "Message:\n" + (data.message || "-")
-      );
-
-      // TODO: Replace with your real receiving email
-      const yourEmail = "your-email@example.com";
-      const mailto = `mailto:${yourEmail}?subject=${subject}&body=${body}`;
-
-      toast("Request prepared. Your email app will open now (demo).");
-      window.location.href = mailto;
-
-      // Option B (recommended): Send to your backend / Formspree / Netlify Forms.
-      // fetch("/lead", { method:"POST", headers:{ "Content-Type":"application/json" }, body: JSON.stringify(data) })
-    });
   </script>
-  <script>
-  // Simple toast
-  function toast(msg){
+
+
+<script>
+  // Update year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Toast
+  function toast(msg) {
     const el = document.getElementById('toast');
     el.textContent = msg;
     el.style.display = 'block';
     clearTimeout(window.__t);
-    window.__t = setTimeout(()=>{ el.style.display='none'; }, 4200);
+    window.__t = setTimeout(() => { el.style.display = 'none'; }, 4200);
   }
 
-  document.getElementById('auditForm').addEventListener('submit', async (e) => {
+  // Book a Call placeholder
+  document.getElementById('bookCallBtn')?.addEventListener('click', (e) => {
     e.preventDefault();
+    toast("Add your Calendly/meeting link in the #bookCallBtn click handler.");
+  });
+
+  // Lead submit (fetch)
+  document.getElementById('auditForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
     const form = e.target;
     const data = Object.fromEntries(new FormData(form).entries());
 
@@ -558,6 +539,11 @@
     }
   });
 </script>
+
+
+
+
+
 <!-- 
 <script>
 (function(){
